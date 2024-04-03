@@ -1,12 +1,10 @@
-import fastify from "fastify";
-import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
-import { Type } from "@sinclair/typebox";
-import { Prisma, PrismaClient } from "@prisma/client";
 import sensible from "@fastify/sensible";
-
-const prisma = new PrismaClient({
-	log: ["query"],
-});
+import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import fastify from "fastify";
+import { createEvent } from "./routes/create-event.js";
+import { registerForEvent } from "./routes/register-for-event.js";
+import { getEvent } from "./routes/get-event.js";
+import { getAttendeeBadge } from "./routes/get-attendee-badge.js";
 
 const app = fastify({
 	logger: {
@@ -18,38 +16,9 @@ const app = fastify({
 
 await app.register(sensible);
 
-app.post(
-	"/events",
-	{
-		schema: {
-			body: Type.Object(
-				{
-					title: Type.String({ minLength: 4 }),
-					details: Type.String({ nullable: true }),
-					maximumAttendees: Type.Integer({ minimum: 1, nullable: true }),
-					slug: Type.String(),
-				},
-				{
-					additionalProperties: false,
-				},
-			),
-		},
-	},
-	async (request, reply) => {
-		try {
-			const { id } = await prisma.event.create({ data: request.body, select: { id: true } });
-
-			reply.statusCode = 201;
-
-			return { eventId: id };
-		} catch (error) {
-			if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-				throw app.httpErrors.conflict("Slug already in use");
-			}
-
-			throw error;
-		}
-	},
-);
+await app.register(createEvent);
+await app.register(getAttendeeBadge);
+await app.register(getEvent);
+await app.register(registerForEvent);
 
 await app.listen({ port: 3333 });

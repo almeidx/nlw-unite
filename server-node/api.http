@@ -2,8 +2,25 @@ POST http://localhost:3333/events
 Content-Type: application/json
 
 {
-	"title": "Nome do Evento",
-	"details": "Isto é um evento de testes",
-	"slug": "evento",
-	"maximumAttendees": 100
+	"title": "Limited Event",
+	"details": null,
+	"maximumAttendees": 1
 }
+
+###
+
+POST http://localhost:3333/events/53bbcaba-a09a-4aee-ba71-bd0370461c97/attendees
+Content-Type: application/json
+
+{
+	"name": "Almeida",
+	"email": "root@almeidx.dev"
+}
+
+###
+
+GET http://localhost:3333/events/53bbcaba-a09a-4aee-ba71-bd0370461c97
+
+###
+
+GET http://localhost:3333/attendees/2/badge
