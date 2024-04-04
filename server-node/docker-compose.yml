@@ -1,0 +1,11 @@
+services:
+  api-pass-in:
+    build:
+      context: .
+    container_name: api-pass-in
+    ports:
+      - "3001:3333"
+    environment:
+      DATABASE_URL: 'file:./db.sqlite'
+      NODE_ENV: 'production'
+    network_mode: host

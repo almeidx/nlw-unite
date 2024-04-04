@@ -2,7 +2,7 @@
 	"name": "server-node",
 	"type": "module",
 	"scripts": {
-		"build": "esbuild --platform=node --outdir=dist --target=node20 src/**",
+		"build": "esbuild --platform=node --outdir=dist --target=node20 'src/**'",
 		"dev": "tsx watch --env-file=.env src/server.ts",
 		"start": "node --env-file=.env dist/server.js"
 	},

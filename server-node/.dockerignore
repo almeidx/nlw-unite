@@ -1,0 +1,8 @@
+.vscode/
+dist/
+node_modules/
+.dockerignore
+.git*
+api.http
+biome.json
+Dockerfile
