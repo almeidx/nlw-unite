@@ -9,12 +9,12 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3333/events/53bbcaba-a09a-4aee-ba71-bd0370461c97/attendees
+POST http://localhost:3333/events/6e21db30-6e09-433e-8d14-25d42c119612/attendees
 Content-Type: application/json
 
 {
-	"name": "Almeida",
-	"email": "root@almeidx.dev"
+	"name": "User",
+	"email": "mail@example.com"
 }
 
 ###

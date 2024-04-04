@@ -29,6 +29,7 @@ export async function getEventAttendees(app: FastifyInstance) {
 								checkedInAt: Type.Union([Type.String({ format: "date-time" }), Type.Null()]),
 							}),
 						),
+						total: Type.Integer(),
 					}),
 				},
 			},
@@ -37,26 +38,31 @@ export async function getEventAttendees(app: FastifyInstance) {
 			const { eventId } = request.params;
 			const { pageIndex, query } = request.query;
 
-			const attendees = await prisma.attendee.findMany({
-				select: {
-					id: true,
-					name: true,
-					email: true,
-					createdAt: true,
+			const where = query ? { eventId, name: { contains: query } } : { eventId };
 
-					checkIn: {
-						select: {
-							createdAt: true,
+			const [attendees, total] = await Promise.all([
+				prisma.attendee.findMany({
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						createdAt: true,
+
+						checkIn: {
+							select: {
+								createdAt: true,
+							},
 						},
 					},
-				},
-				where: query ? { eventId, name: { contains: query } } : { eventId },
-				take: perPage,
-				skip: pageIndex * perPage,
-				orderBy: {
-					createdAt: "desc",
-				},
-			});
+					where,
+					take: perPage,
+					skip: pageIndex * perPage,
+					orderBy: {
+						createdAt: "desc",
+					},
+				}),
+				prisma.attendee.count({ where }),
+			]);
 
 			return {
 				attendees: attendees.map((attendee) => ({
@@ -66,6 +72,7 @@ export async function getEventAttendees(app: FastifyInstance) {
 					createdAt: attendee.createdAt.toISOString(),
 					checkedInAt: attendee.checkIn?.createdAt.toISOString() ?? null,
 				})),
+				total,
 			};
 		},
 	);
