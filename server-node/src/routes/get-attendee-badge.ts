@@ -7,23 +7,24 @@ export async function getAttendeeBadge(app: FastifyInstance) {
 		"/attendees/:attendeeId/badge",
 		{
 			schema: {
+				summary: "Get a badge for an attendee",
+				tags: ["attendees"],
 				params: Type.Object({
 					attendeeId: Type.Integer({ minimum: 1 }),
 				}),
 				response: {
 					200: Type.Object({
-						attendee: Type.Object({
+						badge: Type.Object({
 							name: Type.String(),
-							email: Type.String(),
-							event: Type.Object({
-								title: Type.String(),
-							}),
+							email: Type.String({ format: "email" }),
+							eventTitle: Type.String(),
+							checkInUrl: Type.String({ format: "uri" }),
 						}),
 					}),
 				},
 			},
 		},
-		async (request, reply) => {
+		async (request, _reply) => {
 			const { attendeeId } = request.params;
 
 			const attendee = await prisma.attendee.findUnique({
@@ -43,7 +44,16 @@ export async function getAttendeeBadge(app: FastifyInstance) {
 				throw app.httpErrors.notFound("Attendee not found");
 			}
 
-			return { attendee };
+			const checkInUrl = new URL(`/attendees/${attendeeId}/check-in`, `${request.protocol}://${request.hostname}`);
+
+			return {
+				badge: {
+					name: attendee.name,
+					email: attendee.email,
+					eventTitle: attendee.event.title,
+					checkInUrl: checkInUrl.toString(),
+				},
+			};
 		},
 	);
 }

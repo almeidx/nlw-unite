@@ -9,6 +9,8 @@ export async function createEvent(app: FastifyInstance) {
 		"/events",
 		{
 			schema: {
+				summary: "Create a new event",
+				tags: ["events"],
 				body: Type.Object(
 					{
 						title: Type.String({ minLength: 4 }),

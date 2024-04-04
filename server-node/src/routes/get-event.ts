@@ -7,6 +7,8 @@ export async function getEvent(app: FastifyInstance) {
 		"/events/:eventId",
 		{
 			schema: {
+				summary: "Get an event",
+				tags: ["events"],
 				params: Type.Object({
 					eventId: Type.String({ format: "uuid" }),
 				}),
