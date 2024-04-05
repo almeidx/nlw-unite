@@ -51,4 +51,4 @@ await app.register(getEventAttendees);
 await app.register(getEvent);
 await app.register(registerForEvent);
 
-await app.listen({ port: 3333 });
+await app.listen({ port: 3333, host: '0.0.0.0' });

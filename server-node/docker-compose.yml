@@ -1,11 +1,42 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: db-pass-in
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: passin
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - passin
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api-pass-in:
     build:
       context: .
     container_name: api-pass-in
     ports:
-      - "3001:3333"
+      - 3001:3333
     environment:
-      DATABASE_URL: 'file:./db.sqlite'
-      NODE_ENV: 'production'
-    network_mode: host
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/passin
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - passin
+
+volumes:
+  db:
+
+
+networks:
+  passin:
+    driver: bridge

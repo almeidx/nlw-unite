@@ -86,6 +86,9 @@ importers:
       fastify:
         specifier: ^4.26.2
         version: 4.26.2
+      prisma:
+        specifier: ^5.12.0
+        version: 5.12.0
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
@@ -99,9 +102,6 @@ importers:
       esbuild:
         specifier: ^0.20.2
         version: 0.20.2
-      prisma:
-        specifier: ^5.12.0
-        version: 5.12.0
       tsx:
         specifier: ^4.7.1
         version: 4.7.1
@@ -1027,9 +1027,11 @@ packages:
 
   /@prisma/debug@5.12.0:
     resolution: {integrity: sha512-wK3fQLxPLMqf5riT5ZIhl8NffPSzFUwtzFX5CH7z/oI9Swmo9UhQlUgZABIVgdXSJ5OAlmRcDZtDKaMApIl8sg==}
+    dev: false
 
   /@prisma/engines-version@5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab:
     resolution: {integrity: sha512-6yvO8s80Tym61aB4QNtYZfWVmE3pwqe807jEtzm8C5VDe7nw8O1FGX3TXUaXmWV0fQTIAfRbeL2Gwrndabp/0g==}
+    dev: false
 
   /@prisma/engines@5.12.0:
     resolution: {integrity: sha512-rFNRul9JGu0d3tf8etBgmDQ4NVoDwgGrRguvQOc8i+c6g7xPjRuu4aKzMMvHWUuccvRx5+fs1KMBxQ0x2THt+Q==}
@@ -1039,6 +1041,7 @@ packages:
       '@prisma/engines-version': 5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab
       '@prisma/fetch-engine': 5.12.0
       '@prisma/get-platform': 5.12.0
+    dev: false
 
   /@prisma/fetch-engine@5.12.0:
     resolution: {integrity: sha512-qkHQbZ1hspvOwcImvqY4yj7+FUlw0+uP+6tu3g24V4ULHOXLLkvr5ZZc6vy26OF0hkbD3kcDJCeutFis3poKgg==}
@@ -1046,11 +1049,13 @@ packages:
       '@prisma/debug': 5.12.0
       '@prisma/engines-version': 5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab
       '@prisma/get-platform': 5.12.0
+    dev: false
 
   /@prisma/get-platform@5.12.0:
     resolution: {integrity: sha512-81Ptv9YJnwTArEBPQ2Lvu58sZPxy4OixKxVVgysFan6A3bFP7q8gIg15WTjsRuH4WXh6B667EM9sqoMTNu0fLQ==}
     dependencies:
       '@prisma/debug': 5.12.0
+    dev: false
 
   /@rollup/rollup-android-arm-eabi@4.14.0:
     resolution: {integrity: sha512-jwXtxYbRt1V+CdQSy6Z+uZti7JF5irRKF8hlKfEnF/xJpcNGuuiZMBvuoYM+x9sr9iWGnzrlM0+9hvQ1kgkf1w==}
@@ -2238,6 +2243,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 5.12.0
+    dev: false
 
   /process-warning@3.0.0:
     resolution: {integrity: sha512-mqn0kFRl0EoqhnL0GQ0veqFHyIN1yig9RHh/InzORTUiZHFRAur+aMtRkELNwGs9aNwKS6tg/An4NYBPGwvtzQ==}
